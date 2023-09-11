@@ -180,7 +180,7 @@ function UserNavBar() {
             </Container>
             <Container>
                 <Tabs
-                    defaultValue="Home"
+                    defaultValue="Cartoonise"
                     variant="outline"
                     classNames={{
                         root: classes.tabs,
