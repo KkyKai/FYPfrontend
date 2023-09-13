@@ -11,12 +11,30 @@ function UserFAQPage() {
         marginBottom: '20px',
     }
 
+    const lineStyle = {
+        width: '80%',             // Adjust the width as needed, e.g., '50%' of the container width
+        margin: '0 auto',         // Center the horizontal line horizontally
+        border: '1px solid #ccc', // Add a border to the line
+      };
+
+      const listStyle = {
+        listStyle: 'none', // Remove default bullets
+      };
+
+      const containerStyles = {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100vh', // 100% of the viewport height
+      };
+
   return (
     <div>
         <UserNavBar />
         <h1 style={titleStyle}>FAQ Page</h1>
+        <hr style={lineStyle}/>
 
-        <ol style={textStyle}>
+        <ul style={listStyle}>
             <li style={textStyle}>
             <strong>What is [Your Company/Product/Service] and what do you offer?</strong>
             <p>[Your Company/Product/Service] is [a brief description of your business]. We offer [a brief description of your main offerings].</p>
@@ -65,7 +83,7 @@ function UserFAQPage() {
             <strong>What should I do if I encounter a technical issue with [Your Product/Service]?</strong>
             <p>If you encounter technical issues, please [provide instructions on how to contact technical support].</p>
             </li>
-        </ol>
+        </ul>
 
     </ div>
   );

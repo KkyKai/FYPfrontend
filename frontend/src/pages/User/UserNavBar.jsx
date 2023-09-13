@@ -142,6 +142,11 @@ function UserNavBar() {
                         </Menu.Target>
                         <Menu.Dropdown>
                             <Menu.Item
+                                icon={<IconMessage size="0.9rem" color={theme.colors.blue[6]} stroke={1.5} />}
+                            >
+                                <Link to="/UserHome">User  Homepage</Link>
+                            </Menu.Item>
+                            <Menu.Item
                                 icon={<IconHeart size="0.9rem" color={theme.colors.red[6]} stroke={1.5} />}
                             >
                                 <Link to="/UserFAQPage">User FAQ Page</Link>
@@ -151,15 +156,10 @@ function UserNavBar() {
                             >
                                 <Link to="/UserSupportPage">User Support Page</Link>
                             </Menu.Item>
-                            <Menu.Item
-                                icon={<IconMessage size="0.9rem" color={theme.colors.blue[6]} stroke={1.5} />}
-                            >
-                                Your comments
-                            </Menu.Item>
 
                             <Menu.Label>Settings</Menu.Label>
                             <Menu.Item icon={<IconSettings size="0.9rem" stroke={1.5} />}>
-                                Account settings
+                                <Link to="/UserSettingPage">User Setting</Link>
                             </Menu.Item>
                             <Menu.Item icon={<IconSwitchHorizontal size="0.9rem" stroke={1.5} />}>
                                 Change account
