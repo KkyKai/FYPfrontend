@@ -24,6 +24,7 @@ import {
     IconChevronDown,
 } from '@tabler/icons-react';
 import { MantineLogo } from '@mantine/ds';
+import { Link } from 'react-router-dom';
 
 const useStyles = createStyles((theme) => ({
     header: {
@@ -143,12 +144,12 @@ function UserNavBar() {
                             <Menu.Item
                                 icon={<IconHeart size="0.9rem" color={theme.colors.red[6]} stroke={1.5} />}
                             >
-                                Liked posts
+                                <Link to="/UserFAQPage">User FAQ Page</Link>
                             </Menu.Item>
                             <Menu.Item
                                 icon={<IconStar size="0.9rem" color={theme.colors.yellow[6]} stroke={1.5} />}
                             >
-                                Saved posts
+                                <Link to="/UserSupportPage">User Support Page</Link>
                             </Menu.Item>
                             <Menu.Item
                                 icon={<IconMessage size="0.9rem" color={theme.colors.blue[6]} stroke={1.5} />}
