@@ -10,6 +10,11 @@ import {
     Tabs,
     Burger,
     rem,
+    Modal,
+    PasswordInput,
+    TextInput,
+    Button,
+    Box,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import {
@@ -25,6 +30,7 @@ import {
 } from '@tabler/icons-react';
 import { MantineLogo } from '@mantine/ds';
 import { Link } from 'react-router-dom';
+import { useForm } from '@mantine/form';
 
 const useStyles = createStyles((theme) => ({
     header: {
@@ -102,8 +108,11 @@ function UserNavBar() {
     };
 
     const { classes, theme, cx } = useStyles();
-    const [opened, { toggle }] = useDisclosure(false);
+    const [tabOpened, { toggle: toggleTab }] = useDisclosure(false);
     const [userMenuOpened, setUserMenuOpened] = useState(false);
+
+    const [modalOpened, { open: openModal, close: closeModal}] = useDisclosure(false);
+    const [signupModalOpened, { open: openSignupModal, close: closeSignupModal}] = useDisclosure(false);
 
     const items = tab.tabs.map((tabs) => (
         <Tabs.Tab value={tabs} key={tabs}>
@@ -111,13 +120,52 @@ function UserNavBar() {
         </Tabs.Tab>
     ));
 
+    const form = useForm({
+        initialValues: { email: '', password: 'secret', },
+    
+        // functions will be used to validate values at corresponding key
+        validate: {
+          email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
+          password: (value) => (value.length >= 6 ? null : 'Passwod must be at least 6 characters long'),
+        },
+      });
+
     return (
         <div className={classes.header}>
+            {/* Login Modal */}
+            <Modal opened={modalOpened} onClose={closeModal} title="Authentication">
+                <form onSubmit={form.onSubmit(console.log)}>
+                    <TextInput mt="sm" label="Email" placeholder="Email" {...form.getInputProps('email')} />
+                    <PasswordInput label="Password" placeholder="Password"
+                    {...form.getInputProps('password')}
+                    />
+
+                    <Button type="submit" mt="sm">
+                    Login
+                    </Button>
+
+                    <p>
+                        Don't have an account? <span onClick={openSignupModal}>Sign Up</span>
+                    </p>
+                </form>
+            </Modal>
+
+            {/* Signup Modal */}
+            <Modal opened={signupModalOpened} onClose={closeSignupModal} title="Sign Up">
+                <form>
+                    {/* Add signup form fields */}
+                    <TextInput label="Full Name" placeholder="Full Name" />
+                    <TextInput label="Email" placeholder="Email" />
+                    <PasswordInput label="Password" placeholder="Password" />
+                    <Button type="submit">Sign Up</Button>
+                </form>
+            </Modal>
+
             <Container className={classes.mainSection}>
                 <Group position="apart">
                     <MantineLogo size={28} />
 
-                    <Burger opened={opened} onClick={toggle} className={classes.burger} size="sm" />
+                    <Burger opened={tabOpened} onClick={toggleTab} className={classes.burger} size="sm" />
 
                     <Menu
                         width={260}
@@ -164,7 +212,7 @@ function UserNavBar() {
                             <Menu.Item icon={<IconSwitchHorizontal size="0.9rem" stroke={1.5} />}>
                                 Change account
                             </Menu.Item>
-                            <Menu.Item icon={<IconLogout size="0.9rem" stroke={1.5} />}>Logout</Menu.Item>
+                            <Menu.Item icon={<IconLogout size="0.9rem" stroke={1.5} />} onClick={openModal}>Login</Menu.Item>
 
                             <Menu.Divider />
 
