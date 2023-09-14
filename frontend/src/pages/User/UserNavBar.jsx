@@ -24,6 +24,7 @@ import {
     IconChevronDown,
 } from '@tabler/icons-react';
 import { MantineLogo } from '@mantine/ds';
+import AniFaceLogo from './AniFace-logos_black (1).png';
 
 const useStyles = createStyles((theme) => ({
     header: {
@@ -32,7 +33,6 @@ const useStyles = createStyles((theme) => ({
         borderBottom: `${rem(1)} solid ${theme.colorScheme === 'dark' ? 'transparent' : theme.colors.gray[2]
             }`,
         marginBottom: rem(120),
-        marginTop: rem(-75),
     },
 
     mainSection: {
@@ -115,10 +115,8 @@ function UserNavBar() {
         <div className={classes.header}>
             <Container className={classes.mainSection}>
                 <Group position="apart">
-                    <MantineLogo size={28} />
-
                     <Burger opened={opened} onClick={toggle} className={classes.burger} size="sm" />
-
+                    <img src ={AniFaceLogo}  width = {200} height = {45}  object-fit = {'scale-down'} alt = "logo"/>
                     <Menu
                         width={260}
                         position="bottom-end"
