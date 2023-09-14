@@ -39,7 +39,6 @@ const useStyles = createStyles((theme) => ({
         borderBottom: `${rem(1)} solid ${theme.colorScheme === 'dark' ? 'transparent' : theme.colors.gray[2]
             }`,
         marginBottom: rem(120),
-        marginTop: rem(-75),
     },
 
     mainSection: {
@@ -199,6 +198,11 @@ function UserNavBar() {
                                 icon={<IconHeart size="0.9rem" color={theme.colors.red[6]} stroke={1.5} />}
                             >
                                 <Link to="/UserFAQPage">User FAQ Page</Link>
+                            </Menu.Item>
+                            <Menu.Item
+                                icon={<IconHeart size="0.9rem" color={theme.colors.red[6]} stroke={1.5} />}
+                            >
+                                <Link to="/UserSubscriptionPlans">User Subscription Page</Link>
                             </Menu.Item>
                             <Menu.Item
                                 icon={<IconStar size="0.9rem" color={theme.colors.yellow[6]} stroke={1.5} />}
