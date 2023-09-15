@@ -5,6 +5,7 @@ import UserFAQPage from "../pages/User/UserFAQPage";
 import UserSettingPage from "../pages/User/UserSettingPage";
 import Testing from "../pages/User/Testing";
 import UserSubscriptionPlans from "../pages/User/UserSubscriptionPlans";
+import UserTermsAndConditions from "../pages/User/UserTermsAndConditions";
 
 function PageRoutes() {
     return (
@@ -16,7 +17,7 @@ function PageRoutes() {
             <Route path="/UserSettingPage" element={<UserSettingPage />} />
             <Route path="/Testing" element={<Testing />} /> 
             <Route path="/UserSubscriptionPlans" element={<UserSubscriptionPlans />} />
-
+            <Route path="/UserTermsAndConditions" element={<UserTermsAndConditions />} />
         </Routes>
     );
 }

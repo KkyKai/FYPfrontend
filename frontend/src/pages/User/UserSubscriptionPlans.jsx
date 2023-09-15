@@ -81,43 +81,45 @@ const useStyles = createStyles((theme) => ({
 export function UserSubscriptionPlans() {
   const { classes } = useStyles();
   return (
-    <div className={classes.root}>
-     <UserNavBar/>
-      <Container size="lg">
-        <div className={classes.inner}>
-          <div className={classes.content}>
-            <Title className={classes.title}>
-              A{' '}
-              <Text
-                component="span"
-                inherit
+    <div>
+      <UserNavBar/>
+      <div className={classes.root}>
+        <Container size="lg">
+          <div className={classes.inner}>
+            <div className={classes.content}>
+              <Title className={classes.title}>
+                A{' '}
+                <Text
+                  component="span"
+                  inherit
+                  variant="gradient"
+                  gradient={{ from: 'pink', to: 'yellow' }}
+                >
+                  fully featured
+                </Text>{' '}
+                Animation Webapp
+              </Title>
+
+              <Text className={classes.description} mt={30}>
+                Make your own photos come to life with our animation tools open to try - or subscribe for full unlimited access to all features! 
+              </Text>
+
+              <Button
                 variant="gradient"
                 gradient={{ from: 'pink', to: 'yellow' }}
+                size="xl"
+                className={classes.control}
+                mt={40}
               >
-                fully featured
-              </Text>{' '}
-              Animation Webapp
-            </Title>
-
-            <Text className={classes.description} mt={30}>
-              Make your own photos come to life with our animation tools open to try - or subscribe for full unlimited access to all features! 
-            </Text>
-
-            <Button
-              variant="gradient"
-              gradient={{ from: 'pink', to: 'yellow' }}
-              size="xl"
-              className={classes.control}
-              mt={40}
-            >
-              Get started
-            </Button>
+                Get started
+              </Button>
+            </div>
           </div>
-        </div>
-      </Container>
-        <div>
-            <SubscriptionInfoBadge/>
-        </div>
+        </Container>
+          <div>
+              <SubscriptionInfoBadge/>
+          </div>
+      </div>
     </div>
   );
 }

@@ -28,9 +28,9 @@ import {
     IconSwitchHorizontal,
     IconChevronDown,
 } from '@tabler/icons-react';
-import { MantineLogo } from '@mantine/ds';
 import { Link } from 'react-router-dom';
 import { useForm } from '@mantine/form';
+import AniFaceLogo from './AniFace-logos_black (1).png';
 
 const useStyles = createStyles((theme) => ({
     header: {
@@ -163,10 +163,8 @@ function UserNavBar() {
 
             <Container className={classes.mainSection}>
                 <Group position="apart">
-                    <MantineLogo size={28} />
-
                     <Burger opened={tabOpened} onClick={toggleTab} className={classes.burger} size="sm" />
-
+                    <img src ={AniFaceLogo}  width = {200} height = {45}  object-fit = {'scale-down'} alt = "logo"/>
                     <Menu
                         width={260}
                         position="bottom-end"
