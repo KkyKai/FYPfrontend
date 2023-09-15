@@ -187,6 +187,7 @@ function UserNavBar() {
                             </UnstyledButton>
                         </Menu.Target>
                         <Menu.Dropdown>
+                        <Menu.Label>User Options</Menu.Label>
                             <Menu.Item
                                 icon={<IconMessage size="0.9rem" color={theme.colors.blue[6]} stroke={1.5} />}
                             >
@@ -219,12 +220,17 @@ function UserNavBar() {
 
                             <Menu.Divider />
 
-                            <Menu.Label>Danger zone</Menu.Label>
+                            <Menu.Label>Account</Menu.Label>
                             <Menu.Item icon={<IconPlayerPause size="0.9rem" stroke={1.5} />}>
                                 Pause subscription
                             </Menu.Item>
                             <Menu.Item color="red" icon={<IconTrash size="0.9rem" stroke={1.5} />}>
                                 Delete account
+                            </Menu.Item>
+                            <Menu.Item
+                                icon={<IconStar size="0.9rem" color={theme.colors.yellow[6]} stroke={1.5} />}
+                            >
+                                <Link to="/UsertermsAndConditions">View Terms & Conditions</Link>
                             </Menu.Item>
                         </Menu.Dropdown>
                     </Menu>

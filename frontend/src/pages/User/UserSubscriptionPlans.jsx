@@ -119,6 +119,10 @@ export function UserSubscriptionPlans() {
           <div>
               <SubscriptionInfoBadge/>
           </div>
+          <br></br>
+          <div>
+              <SubscriptionInfoBadge/>
+          </div>
       </div>
     </div>
   );
