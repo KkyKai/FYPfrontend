@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { Tabs } from '@mantine/core';
 import { IconWriting, IconRobot } from '@tabler/icons-react';
 import UploadImage from "./UploadImage";
-import UserNavBar from "./UserNavBar";
+import UserNavBar from "../General/UserNavBar";
 
 function UserHome() {
     return (

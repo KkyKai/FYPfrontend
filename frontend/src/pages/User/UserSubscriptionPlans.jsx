@@ -1,4 +1,4 @@
-import UserNavBar from "./UserNavBar";
+import UserNavBar from "../General/UserNavBar";
 import SubscriptionInfoBadge from "./SubscriptionInfoBadge";
 import { createStyles, Container, Title, Text, Button, rem } from '@mantine/core';
 

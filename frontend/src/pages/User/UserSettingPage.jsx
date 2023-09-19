@@ -1,9 +1,9 @@
+import React, { useState, useEffect } from 'react';
 import { rem, Divider, ColorSchemeProvider, ActionIcon, useMantineColorScheme } from '@mantine/core';
-import UserNavBar from "./UserNavBar";
-import { TextInput, Checkbox, Button, Group, Text, Collapse, Box, Switch } from '@mantine/core';
+import UserNavBar from "../General/UserNavBar";
+import { TextInput, MantineProvider, Button, Group, Text, Collapse, Box, Switch } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useForm } from '@mantine/form';
-import { IconSun, IconMoonStars } from '@tabler/icons-react';
 
 function UserSettingPage() {
 
@@ -37,11 +37,23 @@ function UserSettingPage() {
 
     const [opened, { toggle }] = useDisclosure(false);
 
+    const [isDarkMode, setIsDarkMode] = useState(false);
+
+    useEffect(() => {
+        // Update the theme or scheme when isDarkMode changes
+        document.body.className = isDarkMode ? 'dark-theme' : '';
+      }, [isDarkMode]);
+
+    const toggleDarkMode = () => {
+    setIsDarkMode((prevMode) => !prevMode);
+    };
+
     return (
+        <MantineProvider theme={{ colorScheme: isDarkMode ? 'dark' : 'light' }} withGlobalStyles withNormalizeCSS>
         <div>
             <div>
                 <UserNavBar />
-                <h1 style={titleStyle}>Settings</h1>
+                <h2 style={titleStyle}>Settings</h2>
                 <hr style={lineStyle}/>
             </div>
             <Box maw={600} mx="auto">
@@ -78,7 +90,9 @@ function UserSettingPage() {
                         <hr />
 
                         <Switch style={{ marginLeft: 'auto', marginRight: '0' }} // This pushes the switch all the way to the right
-                        labelPosition="right"/>
+                        labelPosition="right"
+                        checked={isDarkMode}
+                        onChange={toggleDarkMode}/>
                     </Group>
 
                     <Group>
@@ -96,6 +110,7 @@ function UserSettingPage() {
                 </form>
             </Box>
         </div>
+        </MantineProvider>
     );
 
 }

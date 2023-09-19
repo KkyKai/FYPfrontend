@@ -1,4 +1,4 @@
-import UserNavBar from "./UserNavBar";
+import UserNavBar from "../General/UserNavBar";
 
 import { createStyles, Title, Text, Container, rem } from '@mantine/core';
 

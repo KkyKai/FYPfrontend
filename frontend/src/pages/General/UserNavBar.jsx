@@ -21,12 +21,13 @@ import {
     IconLogout,
     IconHeart,
     IconStar,
-    IconMessage,
     IconSettings,
-    IconPlayerPause,
-    IconTrash,
-    IconSwitchHorizontal,
     IconChevronDown,
+    IconHome2,
+    IconHelpOctagon,
+    IconUserPlus,
+    IconMessageChatbot,
+    IconClipboardList
 } from '@tabler/icons-react';
 import { Link } from 'react-router-dom';
 import { useForm } from '@mantine/form';
@@ -188,44 +189,65 @@ function UserNavBar() {
                         </Menu.Target>
                         <Menu.Dropdown>
                             <Menu.Item
-                                icon={<IconMessage size="0.9rem" color={theme.colors.blue[6]} stroke={1.5} />}
+                                icon={<IconHome2 size="0.9rem" color={theme.colors.blue[6]} stroke={1.5} />}
                             >
-                                <Link to="/UserHome">User  Homepage</Link>
+                                <Link to="/UserHome" style={{ textDecoration: 'none'}}>User  Homepage</Link>
                             </Menu.Item>
                             <Menu.Item
-                                icon={<IconHeart size="0.9rem" color={theme.colors.red[6]} stroke={1.5} />}
+                                icon={<IconHelpOctagon size="0.9rem" color={theme.colors.yellow[6]} stroke={1.5} />}
                             >
-                                <Link to="/UserFAQPage">User FAQ Page</Link>
+                                <Link to="/UserFAQPage" style={{ textDecoration: 'none'}}>User FAQ Page</Link>
                             </Menu.Item>
                             <Menu.Item
-                                icon={<IconHeart size="0.9rem" color={theme.colors.red[6]} stroke={1.5} />}
+                                icon={<IconUserPlus size="0.9rem" color={theme.colors.red[6]} stroke={1.5} />}
                             >
-                                <Link to="/UserSubscriptionPlans">User Subscription Page</Link>
+                                <Link to="/UserSubscriptionPlans" style={{ textDecoration: 'none'}}>User Subscription Page</Link>
                             </Menu.Item>
                             <Menu.Item
-                                icon={<IconStar size="0.9rem" color={theme.colors.yellow[6]} stroke={1.5} />}
+                                icon={<IconMessageChatbot size="0.9rem" color={theme.colors.green[6]} stroke={1.5} />}
                             >
-                                <Link to="/UserSupportPage">User Support Page</Link>
+                                <Link to="/UserSupportPage" style={{ textDecoration: 'none'}}>User Support Page</Link>
                             </Menu.Item>
 
-                            <Menu.Label>Settings</Menu.Label>
-                            <Menu.Item icon={<IconSettings size="0.9rem" stroke={1.5} />}>
-                                <Link to="/UserSettingPage">User Setting</Link>
+                            <Menu.Item
+                                icon={<IconClipboardList size="0.9rem" color={theme.colors.cyan[6]} stroke={1.5} />}
+                            >
+                                <Link to="/UserTermsAndConditions" style={{ textDecoration: 'none'}}>Terms and Condition</Link>
                             </Menu.Item>
-                            <Menu.Item icon={<IconSwitchHorizontal size="0.9rem" stroke={1.5} />}>
-                                Change account
-                            </Menu.Item>
-                            <Menu.Item icon={<IconLogout size="0.9rem" stroke={1.5} />} onClick={openModal}>Login</Menu.Item>
 
                             <Menu.Divider />
 
-                            <Menu.Label>Danger zone</Menu.Label>
-                            <Menu.Item icon={<IconPlayerPause size="0.9rem" stroke={1.5} />}>
-                                Pause subscription
+                            <Menu.Label>Admin</Menu.Label>
+
+                            <Menu.Item icon={<IconHome2 size="0.9rem" color={theme.colors.teal[6]} stroke={1.5} />}>
+                                <Link to="/AdminHome" style={{ textDecoration: 'none'}}>Admin Homepage</Link>
                             </Menu.Item>
-                            <Menu.Item color="red" icon={<IconTrash size="0.9rem" stroke={1.5} />}>
-                                Delete account
+
+                            <Menu.Divider />
+
+                            <Menu.Label>Customer Service Officer</Menu.Label>
+
+                            <Menu.Item icon={<IconHome2 size="0.9rem" color={theme.colors.lime[6]} stroke={1.5} />}>
+                                <Link to="/CustomerServiceOfficerHome" style={{ textDecoration: 'none'}}>Customer Service Officer Homepage</Link>
                             </Menu.Item>
+
+                            <Menu.Divider />
+
+                            <Menu.Label>Owner</Menu.Label>
+
+                            <Menu.Item icon={<IconHome2 size="0.9rem" color={theme.colors.grape[6]} stroke={1.5} />}>
+                                <Link to="/OwnerHome" style={{ textDecoration: 'none'}}>Owner Homepage</Link>
+                            </Menu.Item>
+
+                            <Menu.Divider />
+
+                            <Menu.Label>Settings</Menu.Label>
+                            <Menu.Item icon={<IconSettings size="0.9rem" color={theme.colors.blue[6]} stroke={1.5} />}>
+                                <Link to="/UserSettingPage" style={{ textDecoration: 'none'}}>User Setting</Link>
+                            </Menu.Item>
+                   
+                            <Menu.Item icon={<IconLogout size="0.9rem" stroke={1.5} />} onClick={openModal}>Login</Menu.Item>
+
                         </Menu.Dropdown>
                     </Menu>
                 </Group>

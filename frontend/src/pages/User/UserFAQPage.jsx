@@ -1,5 +1,5 @@
 import { Title, rem } from '@mantine/core';
-import UserNavBar from "./UserNavBar";
+import UserNavBar from "../General/UserNavBar";
 
 function UserFAQPage() {
     const titleStyle = {
@@ -31,7 +31,7 @@ function UserFAQPage() {
   return (
     <div>
         <UserNavBar />
-        <h1 style={titleStyle}>FAQ Page</h1>
+        <h2 style={titleStyle}>FAQ Page</h2>
         <hr style={lineStyle}/>
 
         <ul style={listStyle}>

@@ -9,7 +9,7 @@ import {
     createStyles,
     rem,
   } from '@mantine/core';
-import UserNavBar from "./UserNavBar";
+import UserNavBar from "../General/UserNavBar";
 
   const useStyles = createStyles((theme) => {
     const BREAKPOINT = theme.fn.smallerThan('sm');

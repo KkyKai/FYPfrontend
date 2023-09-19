@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Image, FileButton, Button, Group, Text, Space, Stack } from '@mantine/core';
+import { Image, FileButton, Button, Group, Text, Space, Stack, MantineProvider } from '@mantine/core';
 
 function Testing() {
     const [file, setFile] = useState(null | File);
@@ -26,7 +26,8 @@ function Testing() {
     // }
 
     return (
-        <div>
+        <MantineProvider theme={{ colorScheme: 'dark' }} withGlobalStyles withNormalizeCSS>
+                    <div>
             <Stack align="center">
                 <Group>
                     {file ? (
@@ -71,6 +72,7 @@ function Testing() {
                 </Text>
             )}
         </div>
+        </MantineProvider>
     );
 }
 
