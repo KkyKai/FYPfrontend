@@ -27,7 +27,9 @@ import {
     IconHelpOctagon,
     IconUserPlus,
     IconMessageChatbot,
-    IconClipboardList
+    IconClipboardList,
+    IconPlayerPause,
+    IconTrash
 } from '@tabler/icons-react';
 import { Link } from 'react-router-dom';
 import { useForm } from '@mantine/form';
@@ -166,6 +168,7 @@ function UserNavBar() {
                 <Group position="apart">
                     <Burger opened={tabOpened} onClick={toggleTab} className={classes.burger} size="sm" />
                     <img src ={AniFaceLogo}  width = {200} height = {45}  object-fit = {'scale-down'} alt = "logo"/>
+                    <h5 style={{textAlign: 'left'}}>Remaining Uses Available: 3</h5>
                     <Menu
                         width={260}
                         position="bottom-end"
@@ -247,7 +250,15 @@ function UserNavBar() {
                             </Menu.Item>
                    
                             <Menu.Item icon={<IconLogout size="0.9rem" stroke={1.5} />} onClick={openModal}>Login</Menu.Item>
+                            <Menu.Divider />
 
+                            <Menu.Label>Danger zone</Menu.Label>
+                            <Menu.Item icon={<IconPlayerPause size="0.9rem" stroke={1.5} />}>
+                                Pause subscription
+                            </Menu.Item>
+                            <Menu.Item color="red" icon={<IconTrash size="0.9rem" stroke={1.5} />}>
+                                Delete account
+                            </Menu.Item>
                         </Menu.Dropdown>
                     </Menu>
                 </Group>
