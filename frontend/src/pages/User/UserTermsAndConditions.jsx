@@ -1,6 +1,6 @@
 import UserNavBar from "../General/UserNavBar";
-
-import { createStyles, Title, Text, Container, rem } from '@mantine/core';
+import { useTheme } from "../../GloabalThemeProvider";
+import { createStyles, Title, Text, Container, rem, MantineProvider } from '@mantine/core';
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -89,9 +89,12 @@ const useStyles = createStyles((theme) => ({
 }));
 
 export function UserTermsAndConditions() {
+  const { isDarkMode } = useTheme();
+
   const { classes } = useStyles();
 
   return (
+    <MantineProvider theme={{ colorScheme: isDarkMode ? 'dark' : 'light' }} withGlobalStyles withNormalizeCSS>
     <div>
         <UserNavBar/>
         <Container className={classes.wrapper} size={1400}>
@@ -115,6 +118,7 @@ export function UserTermsAndConditions() {
         </div>
         </Container>
     </div>
+    </ MantineProvider>
   );
 }
 

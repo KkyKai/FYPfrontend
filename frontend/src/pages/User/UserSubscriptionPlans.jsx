@@ -1,6 +1,7 @@
 import UserNavBar from "../General/UserNavBar";
 import SubscriptionInfoBadge from "./SubscriptionInfoBadge";
-import { createStyles, Container, Title, Text, Button, rem } from '@mantine/core';
+import { useTheme } from "../../GloabalThemeProvider";
+import { createStyles, Container, Title, Text, Button, rem, MantineProvider } from '@mantine/core';
 
 const useStyles = createStyles((theme) => ({
   root: {
@@ -80,7 +81,10 @@ const useStyles = createStyles((theme) => ({
 
 export function UserSubscriptionPlans() {
   const { classes } = useStyles();
+
+  const { isDarkMode } = useTheme();
   return (
+    <MantineProvider theme={{ colorScheme: isDarkMode ? 'dark' : 'light' }} withGlobalStyles withNormalizeCSS>
     <div>
       <UserNavBar/>
       <div className={classes.root}>
@@ -121,6 +125,7 @@ export function UserSubscriptionPlans() {
           </div>
       </div>
     </div>
+    </ MantineProvider>
   );
 }
 

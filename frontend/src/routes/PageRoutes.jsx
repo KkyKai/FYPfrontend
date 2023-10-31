@@ -1,4 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import UserLandingPage from "../pages/General/UserLandingPage";
+import UserSignupPage from "../pages/General/UserSignupPage";
 import UserHome from "../pages/User/UserHome";
 import UserSupportPage from "../pages/User/UserSupportPage";
 import UserFAQPage from "../pages/User/UserFAQPage";
@@ -13,7 +15,9 @@ import OwnerHome from "../pages/Owner/OwnerHome";
 function PageRoutes() {
     return (
         <Routes>
-            <Route path="/" element={<UserHome />} />
+            <Route path="/" element={<UserLandingPage />} />
+            <Route path="/UserLandingPage" element={<UserLandingPage />} />
+            <Route path="/UserSignupPage" element={<UserSignupPage />} />
             <Route path="/UserHome" element={<UserHome />} />
             <Route path="/UserSupportPage" element={<UserSupportPage />} />
             <Route path="/UserFAQPage" element={<UserFAQPage />} />

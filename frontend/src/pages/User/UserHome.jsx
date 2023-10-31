@@ -2,14 +2,25 @@ import { useEffect, useState, useCallback } from "react";
 import { Link } from "react-router-dom";
 //import axios from "axios";
 
-import { Tabs } from '@mantine/core';
+import { Tabs, MantineProvider } from '@mantine/core';
+import { useTheme } from "../../GloabalThemeProvider";
 import { IconWriting, IconRobot } from '@tabler/icons-react';
 import UploadImage from "./UploadImage";
 import UserNavBar from "../General/UserNavBar";
+import { useUser } from '../General/UserContext';
 
 function UserHome() {
+
+    const user = useUser();
+    const { isDarkMode } = useTheme();
+    if (!user) {
+        return <div>Loading...</div>;
+      }
+
     return (
+        <MantineProvider theme={{ colorScheme: isDarkMode ? 'dark' : 'light' }} withGlobalStyles withNormalizeCSS>
         <div>
+            
             <UserNavBar />
             <UploadImage />
             <Tabs defaultValue="model">
@@ -27,7 +38,8 @@ function UserHome() {
                 </Tabs.Panel>
             </Tabs>
         </div>
-
+        <h1>Welcome, {user.fullName}!</h1>
+        </MantineProvider>
     );
 }
 

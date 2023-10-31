@@ -248,9 +248,11 @@ function UserNavBar() {
                             <Menu.Item icon={<IconSettings size="0.9rem" color={theme.colors.blue[6]} stroke={1.5} />}>
                                 <Link to="/UserSettingPage" style={{ textDecoration: 'none'}}>User Setting</Link>
                             </Menu.Item>
-                   
-                            <Menu.Item icon={<IconLogout size="0.9rem" stroke={1.5} />} onClick={openModal}>Login</Menu.Item>
-                            <Menu.Divider />
+
+                            <Menu.Label>Login</Menu.Label>
+                            <Menu.Item icon={<IconLogout size="0.9rem" color={theme.colors.blue[6]} stroke={1.5} />}>
+                                <Link to="/UserLandingPage" style={{ textDecoration: 'none'}}>Login</Link>
+                            </Menu.Item>
 
                             <Menu.Label>Danger zone</Menu.Label>
                             <Menu.Item icon={<IconPlayerPause size="0.9rem" stroke={1.5} />}>

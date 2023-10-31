@@ -1,7 +1,10 @@
-import { Title, rem } from '@mantine/core';
+import { Title, rem, MantineProvider } from '@mantine/core';
+import { useTheme } from "../../GloabalThemeProvider";
 import UserNavBar from "../General/UserNavBar";
 
 function UserFAQPage() {
+    const { isDarkMode } = useTheme();
+    
     const titleStyle = {
         marginTop: rem(-75),
         textAlign: 'center',
@@ -29,6 +32,7 @@ function UserFAQPage() {
       };
 
   return (
+    <MantineProvider theme={{ colorScheme: isDarkMode ? 'dark' : 'light' }} withGlobalStyles withNormalizeCSS>
     <div>
         <UserNavBar />
         <h2 style={titleStyle}>FAQ Page</h2>
@@ -86,6 +90,7 @@ function UserFAQPage() {
         </ul>
 
     </ div>
+    </MantineProvider>
   );
 }
 

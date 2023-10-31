@@ -1,11 +1,75 @@
 import React, { useState, useEffect } from 'react';
-import { rem, Divider, ColorSchemeProvider, ActionIcon, useMantineColorScheme } from '@mantine/core';
+import { useTheme } from '../../GloabalThemeProvider';
+import { rem, useMantineColorScheme } from '@mantine/core';
 import UserNavBar from "../General/UserNavBar";
 import { TextInput, MantineProvider, Button, Group, Text, Collapse, Box, Switch } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useForm } from '@mantine/form';
+import { getFirestore, doc, getDoc } from 'firebase/firestore';
+import { useUser } from '../General/UserContext';
 
 function UserSettingPage() {
+    const [userData, setUserData] = useState({
+        fullName: '',
+        email: '',
+        country: '',
+        birthdate: '',
+        gender: '',
+        job: '',
+      });
+    const { user } = useUser();
+
+    const { isDarkMode, toggleDarkMode } = useTheme();
+    // const [dataLoaded, setDataLoaded] = useState(false);
+
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //         const db = getFirestore();
+    //         const userDocRef = doc(db, 'users', user.uid); // Replace 'users' with your Firestore collection name and 'USER_ID' with the user's actual ID
+
+    //         try {
+    //             const docSnapshot = await getDoc(userDocRef);
+    //             if (docSnapshot.exists()) {
+    //                 const userData = docSnapshot.data();
+    //                 console.log('Fetched user data:', userData);
+    //                 setUserData(userData);
+    //                 setDataLoaded(true);
+    //             } else {
+    //                 console.log('User data not found');
+    //             }
+    //         } catch (error) {
+    //             console.error('Error fetching user data:', error);
+    //         }
+    //     };
+
+    //     fetchData();
+    // }, []);
+    useEffect(() => {
+        if (!user) {// Access the user's unique ID
+            console.log('cannot get user info'); // Access the user's email
+            // Access other user data as needed
+          }
+        const fetchUserData = async () => {
+          if (user) {
+            const db = getFirestore();
+            const userDocRef = doc(db, 'users', user.uid); // Replace 'users' with your collection name
+    
+            try {
+              const docSnapshot = await getDoc(userDocRef);
+              if (docSnapshot.exists()) {
+                const userData = docSnapshot.data();
+                setUserData(userData);
+              } else {
+                console.log('User data not found');
+              }
+            } catch (error) {
+              console.error('Error fetching user data:', error);
+            }
+          }
+        };
+    
+        fetchUserData();
+      }, [user]);
 
     const titleStyle = {
         marginTop: rem(-75),
@@ -37,17 +101,6 @@ function UserSettingPage() {
 
     const [opened, { toggle }] = useDisclosure(false);
 
-    const [isDarkMode, setIsDarkMode] = useState(false);
-
-    useEffect(() => {
-        // Update the theme or scheme when isDarkMode changes
-        document.body.className = isDarkMode ? 'dark-theme' : '';
-      }, [isDarkMode]);
-
-    const toggleDarkMode = () => {
-    setIsDarkMode((prevMode) => !prevMode);
-    };
-
     return (
         <MantineProvider theme={{ colorScheme: isDarkMode ? 'dark' : 'light' }} withGlobalStyles withNormalizeCSS>
         <div>
@@ -63,9 +116,10 @@ function UserSettingPage() {
                     </Group>
 
                     <TextInput
-                    placeholder="Your name"
-                    label="Full name"
-                    withAsterisk
+                        placeholder="Your name"
+                        label="Full name"
+                        withAsterisk
+                        // Populate with user's Full Name when data is loaded
                     />
 
                     <TextInput

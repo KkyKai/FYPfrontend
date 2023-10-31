@@ -1,15 +1,6 @@
-import {
-    Paper,
-    Text,
-    TextInput,
-    Textarea,
-    Button,
-    Group,
-    SimpleGrid,
-    createStyles,
-    rem,
-  } from '@mantine/core';
+import { Paper, Text, TextInput, Textarea, Button, Group, SimpleGrid, createStyles, rem, MantineProvider } from '@mantine/core';
 import UserNavBar from "../General/UserNavBar";
+import { useTheme } from "../../GloabalThemeProvider";
 
   const useStyles = createStyles((theme) => {
     const BREAKPOINT = theme.fn.smallerThan('sm');
@@ -86,9 +77,12 @@ import UserNavBar from "../General/UserNavBar";
   });
   
   export function UserSupportPage() {
+    const { isDarkMode } = useTheme();
+
     const { classes } = useStyles();
   
     return (
+      <MantineProvider theme={{ colorScheme: isDarkMode ? 'dark' : 'light' }} withGlobalStyles withNormalizeCSS>
       <Paper shadow="md" radius="lg">
         <UserNavBar/>
         <div className={classes.wrapper}>  
@@ -122,6 +116,7 @@ import UserNavBar from "../General/UserNavBar";
           </form>
         </div>
       </Paper>
+      </ MantineProvider>
     );
   }
 
