@@ -5,8 +5,7 @@ import UserNavBar from "../General/UserNavBar";
 import { TextInput, MantineProvider, Button, Group, Text, Collapse, Box, Switch } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useForm } from '@mantine/form';
-import { getFirestore, doc, getDoc } from 'firebase/firestore';
-import { useUser } from '../General/UserContext';
+import { getFirestore, doc, getDoc, updateDoc } from 'firebase/firestore';
 
 function UserSettingPage() {
     const [userData, setUserData] = useState({
@@ -17,57 +16,42 @@ function UserSettingPage() {
         gender: '',
         job: '',
       });
-    const { user } = useUser();
+      const [editedUserData, setEditedUserData] = useState({
+        fullName: '',
+        email: '',
+        country: '',
+        birthdate: '',
+        gender: '',
+        job: '',
+      });
+    const [isEditing, setIsEditing] = useState(false);
+    const user = JSON.parse(localStorage.getItem('user'));
 
     const { isDarkMode, toggleDarkMode } = useTheme();
-    // const [dataLoaded, setDataLoaded] = useState(false);
-
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         const db = getFirestore();
-    //         const userDocRef = doc(db, 'users', user.uid); // Replace 'users' with your Firestore collection name and 'USER_ID' with the user's actual ID
-
-    //         try {
-    //             const docSnapshot = await getDoc(userDocRef);
-    //             if (docSnapshot.exists()) {
-    //                 const userData = docSnapshot.data();
-    //                 console.log('Fetched user data:', userData);
-    //                 setUserData(userData);
-    //                 setDataLoaded(true);
-    //             } else {
-    //                 console.log('User data not found');
-    //             }
-    //         } catch (error) {
-    //             console.error('Error fetching user data:', error);
-    //         }
-    //     };
-
-    //     fetchData();
-    // }, []);
-    useEffect(() => {
-        if (!user) {// Access the user's unique ID
-            console.log('cannot get user info'); // Access the user's email
-            // Access other user data as needed
-          }
-        const fetchUserData = async () => {
-          if (user) {
-            const db = getFirestore();
-            const userDocRef = doc(db, 'users', user.uid); // Replace 'users' with your collection name
     
-            try {
-              const docSnapshot = await getDoc(userDocRef);
-              if (docSnapshot.exists()) {
-                const userData = docSnapshot.data();
-                setUserData(userData);
-              } else {
-                console.log('User data not found');
-              }
-            } catch (error) {
-              console.error('Error fetching user data:', error);
-            }
-          }
-        };
+    const fetchUserData = async () => {
+        if (!user) {
+            console.log('error');
+          return;
+        }
     
+        const db = getFirestore();
+        const userDocRef = doc(db, 'users', user.uid);
+    
+        try {
+          const docSnapshot = await getDoc(userDocRef);
+          if (docSnapshot.exists()) {
+            const userData = docSnapshot.data();
+            setUserData(userData);
+          } else {
+            console.log('User data not found');
+          }
+        } catch (error) {
+          console.error('Error fetching user data:', error);
+        }
+      };
+
+      useEffect(() => {
         fetchUserData();
       }, [user]);
 
@@ -99,7 +83,34 @@ function UserSettingPage() {
         },
     });
 
-    const [opened, { toggle }] = useDisclosure(false);
+    const handleEditClick = () => {
+      if (!isEditing) {
+        setEditedUserData(userData);
+      }
+      setIsEditing(true);
+    };
+    const handleSaveClick = async () => {
+      // Perform save actions, e.g., update data in Firebase
+      const db = getFirestore();
+      const userDocRef = doc(db, 'users', user.uid);
+    
+      try {
+        // Save the editedUserData
+        await updateDoc(userDocRef, {
+          fullName: editedUserData.fullName,
+          email: editedUserData.email,
+          country: editedUserData.country,
+          birthdate: editedUserData.birthdate,
+          gender: editedUserData.gender,
+          job: editedUserData.job,
+        });
+        setIsEditing(false); // Exit editing mode after saving
+      } catch (error) {
+        console.error('Error saving user data:', error);
+      }
+    };
+
+    // const [opened, { toggle }] = useDisclosure(false);
 
     return (
         <MantineProvider theme={{ colorScheme: isDarkMode ? 'dark' : 'light' }} withGlobalStyles withNormalizeCSS>
@@ -116,22 +127,44 @@ function UserSettingPage() {
                     </Group>
 
                     <TextInput
-                        placeholder="Your name"
-                        label="Full name"
-                        withAsterisk
-                        // Populate with user's Full Name when data is loaded
+                      placeholder="Your name"
+                      label="Full name"
+                      value={isEditing ? editedUserData.fullName : userData.fullName}
+                      disabled={!isEditing}
+                      onChange={(event) =>
+                        setEditedUserData({
+                          ...editedUserData,
+                          fullName: event.currentTarget.value,
+                        })
+                      }
                     />
 
                     <TextInput
-                    withAsterisk
                     label="Email"
                     placeholder="your@email.com"
-                    // {...form.getInputProps('email')}
+                    value={userData ? userData.email : ''}
+                    disabled={!isEditing}
                     />
 
                     <TextInput
-                    placeholder="(+65)"
-                    label="Phone Number"
+                    placeholder="YYYY/MM/DD"
+                    label="Birth Date"
+                    value={userData ? userData.birthdate : ''}
+                    disabled={!isEditing}
+                    />
+
+                    <TextInput
+                    label="Country"
+                    placeholder="Country"
+                    value={userData ? userData.country : ''}
+                    disabled={!isEditing}
+                    />
+
+                    <TextInput
+                    label="Profession"
+                    placeholder="Job Title"
+                    value={userData ? userData.job : ''}
+                    disabled={!isEditing}
                     />
 
                     <Group position="left" mt="md">
@@ -159,7 +192,11 @@ function UserSettingPage() {
                     </Group>
 
                     <Group position="right" mt="md">
-                    <Button type="submit">Save</Button>
+                    {isEditing ? (
+                      <Button onClick={handleSaveClick}>Save</Button>
+                    ) : (
+                      <Button onClick={handleEditClick}>Edit</Button>
+                    )}
                     </Group>
                 </form>
             </Box>

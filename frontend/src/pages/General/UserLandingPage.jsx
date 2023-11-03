@@ -5,6 +5,7 @@ import AniFaceLogo from './AniFace-logos_black.png';
 import { TextInput } from '@mantine/core';
 import { Link  } from 'react-router-dom';
 import { useUser } from './UserContext';
+import ReactLoading from 'react-loading';
 
 function UserLandingPage() {
   const { setUser } = useUser();
@@ -22,17 +23,15 @@ function UserLandingPage() {
       await signInWithEmailAndPassword(auth, email, password);
       // Handle successful login
       const user = auth.currentUser;
+      localStorage.setItem('user', JSON.stringify(user));
       setUser(user);
       setLoggedIn(true); // Set login status to true
-      console.log(user);
+      console.log(user.email);
       console.log('You have logged in');
       setError('');
-      if (user){
-        console.log(user.uid);
-        setTimeout(() => {
-          window.location.href = '/UserHome';
-        }, 2000);
-      }
+      setTimeout(() => {
+        window.location.href = '/UserHome';
+      }, 2000);
     } catch (error) {
       setError(error.message);
     }
@@ -88,8 +87,9 @@ function UserLandingPage() {
             onChange={(e) => setPassword(e.target.value)}
             />
             {loggedIn ? (
-            <div>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
               <p>You are logged in. Redirecting to UserHome...</p>
+              <ReactLoading type="spin" color="#007bff" height={30} width={30} />
             </div>
           ) : (
             <div>

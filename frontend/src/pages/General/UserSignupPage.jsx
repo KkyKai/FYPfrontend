@@ -66,12 +66,15 @@ function Signup() {
           gender,
           country,
           job,
+          remainingFilters: 3,
         };
         await setDoc(userDocRef, userData);
         
         setError(''); // Clear error message
         setSuccessMessage('Account created successfully'); // Set success message
-        window.location.href = '/UserHome';
+        setTimeout(() => {
+          window.location.href = '/UserHome';
+        }, 2000);
       } catch (error) {
         setError(error.message);
         setSuccessMessage(''); // Clear success message

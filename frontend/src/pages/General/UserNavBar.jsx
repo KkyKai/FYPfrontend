@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import {
     createStyles,
     Container,
@@ -34,6 +34,11 @@ import {
 import { Link } from 'react-router-dom';
 import { useForm } from '@mantine/form';
 import AniFaceLogo from './AniFace-logos_black (1).png';
+
+const handleLogout = () => {
+    localStorage.removeItem('user');
+    window.location.href = '/UserLandingPage';
+  };
 
 const useStyles = createStyles((theme) => ({
     header: {
@@ -114,9 +119,6 @@ function UserNavBar() {
     const [tabOpened, { toggle: toggleTab }] = useDisclosure(false);
     const [userMenuOpened, setUserMenuOpened] = useState(false);
 
-    const [modalOpened, { open: openModal, close: closeModal}] = useDisclosure(false);
-    const [signupModalOpened, { open: openSignupModal, close: closeSignupModal}] = useDisclosure(false);
-
     const items = tab.tabs.map((tabs) => (
         <Tabs.Tab value={tabs} key={tabs}>
             {tabs}
@@ -135,40 +137,11 @@ function UserNavBar() {
 
     return (
         <div className={classes.header}>
-            {/* Login Modal */}
-            <Modal opened={modalOpened} onClose={closeModal} title="Authentication">
-                <form onSubmit={form.onSubmit(console.log)}>
-                    <TextInput mt="sm" label="Email" placeholder="Email" {...form.getInputProps('email')} />
-                    <PasswordInput label="Password" placeholder="Password"
-                    {...form.getInputProps('password')}
-                    />
-
-                    <Button type="submit" mt="sm">
-                    Login
-                    </Button>
-
-                    <p>
-                        Don't have an account? <span onClick={openSignupModal}>Sign Up</span>
-                    </p>
-                </form>
-            </Modal>
-
-            {/* Signup Modal */}
-            <Modal opened={signupModalOpened} onClose={closeSignupModal} title="Sign Up">
-                <form>
-                    {/* Add signup form fields */}
-                    <TextInput label="Full Name" placeholder="Full Name" />
-                    <TextInput label="Email" placeholder="Email" />
-                    <PasswordInput label="Password" placeholder="Password" />
-                    <Button type="submit">Sign Up</Button>
-                </form>
-            </Modal>
 
             <Container className={classes.mainSection}>
                 <Group position="apart">
                     <Burger opened={tabOpened} onClick={toggleTab} className={classes.burger} size="sm" />
                     <img src ={AniFaceLogo}  width = {200} height = {45}  object-fit = {'scale-down'} alt = "logo"/>
-                    <h5 style={{textAlign: 'left'}}>Remaining Uses Available: 3</h5>
                     <Menu
                         width={260}
                         position="bottom-end"
@@ -249,9 +222,11 @@ function UserNavBar() {
                                 <Link to="/UserSettingPage" style={{ textDecoration: 'none'}}>User Setting</Link>
                             </Menu.Item>
 
-                            <Menu.Label>Login</Menu.Label>
-                            <Menu.Item icon={<IconLogout size="0.9rem" color={theme.colors.blue[6]} stroke={1.5} />}>
-                                <Link to="/UserLandingPage" style={{ textDecoration: 'none'}}>Login</Link>
+                            <Menu.Label>Logout</Menu.Label>
+                            <Menu.Item
+                            icon={<IconLogout size="0.9rem" color={theme.colors.blue[6]} stroke={1.5} />}
+                            onClick={handleLogout}>
+                                Logout
                             </Menu.Item>
 
                             <Menu.Label>Danger zone</Menu.Label>
