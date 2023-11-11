@@ -1,4 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import UserLandingPage from "../pages/General/UserLandingPage";
+import UserSignupPage from "../pages/General/UserSignupPage";
 import UserHome from "../pages/User/UserHome";
 import UserSupportPage from "../pages/User/UserSupportPage";
 import UserFAQPage from "../pages/User/UserFAQPage";
@@ -6,11 +8,16 @@ import UserSettingPage from "../pages/User/UserSettingPage";
 import Testing from "../pages/User/Testing";
 import UserSubscriptionPlans from "../pages/User/UserSubscriptionPlans";
 import UserTermsAndConditions from "../pages/User/UserTermsAndConditions";
+import AdminHome from "../pages/Admin/AdminHome";
+import CustomerServiceOfficerHome from "../pages/CustomerServiceOfficer/CustomerServiceOfficerHome";
+import OwnerHome from "../pages/Owner/OwnerHome";
 
 function PageRoutes() {
     return (
         <Routes>
-            <Route path="/" element={<UserHome />} />
+            <Route path="/" element={<UserLandingPage />} />
+            <Route path="/UserLandingPage" element={<UserLandingPage />} />
+            <Route path="/UserSignupPage" element={<UserSignupPage />} />
             <Route path="/UserHome" element={<UserHome />} />
             <Route path="/UserSupportPage" element={<UserSupportPage />} />
             <Route path="/UserFAQPage" element={<UserFAQPage />} />
@@ -18,6 +25,9 @@ function PageRoutes() {
             <Route path="/Testing" element={<Testing />} /> 
             <Route path="/UserSubscriptionPlans" element={<UserSubscriptionPlans />} />
             <Route path="/UserTermsAndConditions" element={<UserTermsAndConditions />} />
+            <Route path="/AdminHome" element={<AdminHome />} />
+            <Route path="/CustomerServiceOfficerHome" element={<CustomerServiceOfficerHome />} />
+            <Route path="/OwnerHome" element={<OwnerHome />} />
         </Routes>
     );
 }

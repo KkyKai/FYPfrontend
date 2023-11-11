@@ -28,7 +28,7 @@ function UploadImage() {
     return (
         <div>
             <Stack align="center">
-            <Group>
+                <Group>
                     {file ? (
                         <Image width={400} height={320} src={URL.createObjectURL(file)} alt="Original image" withPlaceholder />
                     ) : (

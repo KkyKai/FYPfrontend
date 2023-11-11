@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import {
     createStyles,
     Container,
@@ -10,27 +10,30 @@ import {
     Tabs,
     Burger,
     rem,
-    Modal,
-    PasswordInput,
-    TextInput,
-    Button,
-    Box,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import {
     IconLogout,
-    IconHeart,
-    IconStar,
-    IconMessage,
     IconSettings,
-    IconPlayerPause,
-    IconTrash,
-    IconSwitchHorizontal,
     IconChevronDown,
+    IconHome2,
+    IconHelpOctagon,
+    IconUserPlus,
+    IconMessageChatbot,
+    IconClipboardList,
+    IconPlayerPause,
+    IconTrash
 } from '@tabler/icons-react';
 import { Link } from 'react-router-dom';
 import { useForm } from '@mantine/form';
 import AniFaceLogo from './AniFace-logos_black (1).png';
+import AniFaceDarkLogo from './AniFace-logos_white.png';
+import { useTheme } from '../../GloabalThemeProvider';
+
+const handleLogout = () => {
+    localStorage.removeItem('user');
+    window.location.href = '/UserLandingPage';
+  };
 
 const useStyles = createStyles((theme) => ({
     header: {
@@ -98,6 +101,9 @@ const useStyles = createStyles((theme) => ({
 
 function UserNavBar() {
 
+    const { isDarkMode } = useTheme();
+    const imageSource = isDarkMode ? AniFaceDarkLogo : AniFaceLogo;
+
     const user = {
         name: "",
         image: "",
@@ -110,9 +116,6 @@ function UserNavBar() {
     const { classes, theme, cx } = useStyles();
     const [tabOpened, { toggle: toggleTab }] = useDisclosure(false);
     const [userMenuOpened, setUserMenuOpened] = useState(false);
-
-    const [modalOpened, { open: openModal, close: closeModal}] = useDisclosure(false);
-    const [signupModalOpened, { open: openSignupModal, close: closeSignupModal}] = useDisclosure(false);
 
     const items = tab.tabs.map((tabs) => (
         <Tabs.Tab value={tabs} key={tabs}>
@@ -132,39 +135,11 @@ function UserNavBar() {
 
     return (
         <div className={classes.header}>
-            {/* Login Modal */}
-            <Modal opened={modalOpened} onClose={closeModal} title="Authentication">
-                <form onSubmit={form.onSubmit(console.log)}>
-                    <TextInput mt="sm" label="Email" placeholder="Email" {...form.getInputProps('email')} />
-                    <PasswordInput label="Password" placeholder="Password"
-                    {...form.getInputProps('password')}
-                    />
-
-                    <Button type="submit" mt="sm">
-                    Login
-                    </Button>
-
-                    <p>
-                        Don't have an account? <span onClick={openSignupModal}>Sign Up</span>
-                    </p>
-                </form>
-            </Modal>
-
-            {/* Signup Modal */}
-            <Modal opened={signupModalOpened} onClose={closeSignupModal} title="Sign Up">
-                <form>
-                    {/* Add signup form fields */}
-                    <TextInput label="Full Name" placeholder="Full Name" />
-                    <TextInput label="Email" placeholder="Email" />
-                    <PasswordInput label="Password" placeholder="Password" />
-                    <Button type="submit">Sign Up</Button>
-                </form>
-            </Modal>
 
             <Container className={classes.mainSection}>
                 <Group position="apart">
                     <Burger opened={tabOpened} onClick={toggleTab} className={classes.burger} size="sm" />
-                    <img src ={AniFaceLogo}  width = {200} height = {45}  object-fit = {'scale-down'} alt = "logo"/>
+                    <img src ={imageSource}  width = {200} height = {45}  object-fit = {'scale-down'} alt = "logo"/>
                     <Menu
                         width={260}
                         position="bottom-end"
@@ -189,38 +164,73 @@ function UserNavBar() {
                         <Menu.Dropdown>
                         <Menu.Label>User Options</Menu.Label>
                             <Menu.Item
-                                icon={<IconMessage size="0.9rem" color={theme.colors.blue[6]} stroke={1.5} />}
+                                icon={<IconHome2 size="0.9rem" color={theme.colors.blue[6]} stroke={1.5} />}
                             >
-                                <Link to="/UserHome">User  Homepage</Link>
+                                <Link to="/UserHome" style={{ textDecoration: 'none'}}>User  Homepage</Link>
                             </Menu.Item>
                             <Menu.Item
-                                icon={<IconHeart size="0.9rem" color={theme.colors.red[6]} stroke={1.5} />}
+                                icon={<IconHelpOctagon size="0.9rem" color={theme.colors.yellow[6]} stroke={1.5} />}
                             >
-                                <Link to="/UserFAQPage">User FAQ Page</Link>
+                                <Link to="/UserFAQPage" style={{ textDecoration: 'none'}}>User FAQ Page</Link>
                             </Menu.Item>
                             <Menu.Item
-                                icon={<IconHeart size="0.9rem" color={theme.colors.red[6]} stroke={1.5} />}
+                                icon={<IconUserPlus size="0.9rem" color={theme.colors.red[6]} stroke={1.5} />}
                             >
-                                <Link to="/UserSubscriptionPlans">User Subscription Page</Link>
+                                <Link to="/UserSubscriptionPlans" style={{ textDecoration: 'none'}}>User Subscription Page</Link>
                             </Menu.Item>
                             <Menu.Item
-                                icon={<IconStar size="0.9rem" color={theme.colors.yellow[6]} stroke={1.5} />}
+                                icon={<IconMessageChatbot size="0.9rem" color={theme.colors.green[6]} stroke={1.5} />}
                             >
-                                <Link to="/UserSupportPage">User Support Page</Link>
+                                <Link to="/UserSupportPage" style={{ textDecoration: 'none'}}>User Support Page</Link>
                             </Menu.Item>
 
-                            <Menu.Label>Settings</Menu.Label>
-                            <Menu.Item icon={<IconSettings size="0.9rem" stroke={1.5} />}>
-                                <Link to="/UserSettingPage">User Setting</Link>
+                            <Menu.Item
+                                icon={<IconClipboardList size="0.9rem" color={theme.colors.cyan[6]} stroke={1.5} />}
+                            >
+                                <Link to="/UserTermsAndConditions" style={{ textDecoration: 'none'}}>Terms and Condition</Link>
                             </Menu.Item>
-                            <Menu.Item icon={<IconSwitchHorizontal size="0.9rem" stroke={1.5} />}>
-                                Change account
-                            </Menu.Item>
-                            <Menu.Item icon={<IconLogout size="0.9rem" stroke={1.5} />} onClick={openModal}>Login</Menu.Item>
 
                             <Menu.Divider />
 
                             <Menu.Label>Account</Menu.Label>
+                            <Menu.Label>Admin</Menu.Label>
+
+                            <Menu.Item icon={<IconHome2 size="0.9rem" color={theme.colors.teal[6]} stroke={1.5} />}>
+                                <Link to="/AdminHome" style={{ textDecoration: 'none'}}>Admin Homepage</Link>
+                            </Menu.Item>
+
+                            <Menu.Divider />
+
+                            <Menu.Label>Customer Service Officer</Menu.Label>
+
+                            <Menu.Item icon={<IconHome2 size="0.9rem" color={theme.colors.lime[6]} stroke={1.5} />}>
+                                <Link to="/CustomerServiceOfficerHome" style={{ textDecoration: 'none'}}>Customer Service Officer Homepage</Link>
+                            </Menu.Item>
+
+                            <Menu.Divider />
+
+                            <Menu.Label>Owner</Menu.Label>
+
+                            <Menu.Item icon={<IconHome2 size="0.9rem" color={theme.colors.grape[6]} stroke={1.5} />}>
+                                <Link to="/OwnerHome" style={{ textDecoration: 'none'}}>Owner Homepage</Link>
+                            </Menu.Item>
+
+                            <Menu.Divider />
+
+                            <Menu.Label>Settings</Menu.Label>
+                            <Menu.Item icon={<IconSettings size="0.9rem" color={theme.colors.blue[6]} stroke={1.5} />}>
+                                <Link to="/UserSettingPage" style={{ textDecoration: 'none'}}>User Setting</Link>
+                            </Menu.Item>
+
+                            <Menu.Label>Logout</Menu.Label>
+                            <Menu.Item
+                            icon={<IconLogout size="0.9rem" color={theme.colors.blue[6]} stroke={1.5} />}
+                            onClick={handleLogout}>
+                                Logout
+                            </Menu.Item>
+
+                            <Menu.Label>Danger zone</Menu.Label>
+
                             <Menu.Item icon={<IconPlayerPause size="0.9rem" stroke={1.5} />}>
                                 Pause subscription
                             </Menu.Item>
