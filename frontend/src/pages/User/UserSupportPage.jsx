@@ -1,7 +1,8 @@
-import { Paper, Text, TextInput, Textarea, Button, Group, SimpleGrid, createStyles, rem, MantineProvider } from '@mantine/core';
+import { Paper, Text, TextInput, Textarea, Button, Box, Group, SimpleGrid, createStyles, rem, MantineProvider, em } from '@mantine/core';
 import UserNavBar from "../General/UserNavBar";
 import { useTheme } from "../../GloabalThemeProvider";
-import {collection, addDoc, getFirestore} from "firebase/firestore";
+import {addDoc, getFirestore, setDoc, doc, collection} from "firebase/firestore";
+import { useState } from 'react';
 
   const useStyles = createStyles((theme) => {
     const BREAKPOINT = theme.fn.smallerThan('sm');
@@ -80,31 +81,55 @@ import {collection, addDoc, getFirestore} from "firebase/firestore";
 
   export function UserSupportPage() {
     const { isDarkMode } = useTheme();
-
     const { classes } = useStyles();
 
-    const handleClick = async () => {
-      const db = getFirestore();
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [subject, setSubject] = useState('');
+    const [feedback, setFeedback] = useState('');
+    const [error, setError] = useState(null);
+    const [successMessage, setSuccessMessage] = useState('');
 
-      var name = document.getElementById("name").value; 
-      var email = document.getElementById("email").value; 
-      var subject = document.getElementById("subject").value; 
-      var feedback = document.getElementById("feedback").value;   
-      var resolved = false;
+    const handleSubmit = async (e) => {
+      e.preventDefault();
 
-      await addDoc(collection(db, "feedback"),{
-        name : name,
-        email : email,
-        subject : subject,
-        feedback : feedback,
-        resolved : resolved
-      });
+      if (!name || !email || !subject || !feedback) {
+        setError('Please fill in all fields');
+        setSuccessMessage('');
+      } else {
+        try {
+          const db = getFirestore();
+          const userDocRef = collection(db, 'feedback');
+          const userData = {
+            name,
+            email,
+            subject,
+            feedback,
+            resolve: false,
+          };
+          const docRef = await addDoc(userDocRef, userData);
+          console.log("successfully set feedback with ID: ", docRef.id);
+          setError('');
+          setSuccessMessage('Successfully submitted your feedback.');
+          setName('');
+          setEmail('');
+          setSubject('');
+          setFeedback('');
+          setTimeout(() => {
+            setSuccessMessage('');
+          }, 3000);
+        } catch (error) {
+          setError(error.message);
+          setSuccessMessage('');
+        }
+      }
     }
   
     return (
       <MantineProvider theme={{ colorScheme: isDarkMode ? 'dark' : 'light' }} withGlobalStyles withNormalizeCSS>
       <Paper shadow="md" radius="lg">
         <UserNavBar/>
+        <Box maw={900} mx="auto">
         <div className={classes.wrapper}>  
           <form className={classes.form} onSubmit={(event) => event.preventDefault()}>
             <Text fz="lg" fw={700} className={classes.title}>
@@ -113,24 +138,43 @@ import {collection, addDoc, getFirestore} from "firebase/firestore";
   
             <div className={classes.fields}>
               <SimpleGrid cols={2} breakpoints={[{ maxWidth: 'sm', cols: 1 }]}>
-                <TextInput name ="userName" label="Your name" placeholder="Your name" />
-                <TextInput name ="email" label="Your email" placeholder="youremail@example.com" required />
+                <TextInput
+                  label="Your name" 
+                  placeholder="Your name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required/>
+                <TextInput
+                  label="Your email" 
+                  placeholder="youremail@example.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required />
               </SimpleGrid>
   
-              <TextInput name ="subject" mt="md" label="Subject" placeholder="Subject" required />
+              <TextInput
+                mt="md" 
+                label="Subject"
+                placeholder="Subject"
+                value={subject}
+                onChange={(e) => setSubject(e.target.value)}
+                required />
   
               <Textarea
-                name ="feedback" 
                 mt="md"
                 label="Your message"
                 placeholder="Please include all relevant information"
-                minRows={1}
+                minRows={5}
+                onChange={(e) => setFeedback(e.target.value)}
+                value={feedback}
                 required
               />
   
               <Group position="right" mt="md">
+                {error && <p style={{ textAlign: 'center' }}>{error}</p>}
+                {successMessage && <p style={{ textAlign: 'center' }}>Success: {successMessage}</p>}
                 <Button 
-                  onclick={handleClick} 
+                  onClick={handleSubmit} 
                   type="submit" 
                   className={classes.control}>
                   Send message
@@ -139,6 +183,7 @@ import {collection, addDoc, getFirestore} from "firebase/firestore";
             </div>
           </form>
         </div>
+        </Box>
       </Paper>
       </ MantineProvider>
     );

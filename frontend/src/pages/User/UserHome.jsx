@@ -1,7 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { Link } from "react-router-dom";
-//import axios from "axios";
-
+import { ClipLoader } from "react-spinners";
 import { Tabs, MantineProvider, rem, Text } from '@mantine/core';
 import { useTheme } from "../../GloabalThemeProvider";
 import { IconWriting, IconRobot } from '@tabler/icons-react';
@@ -14,6 +12,7 @@ function UserHome() {
     const user = JSON.parse(localStorage.getItem('user'));
     const { isDarkMode } = useTheme();
     const [firebaseInitialized, setFirebaseInitialized] = useState(false);
+    const [loadingUser, setLoadingUser] = useState(true);
 
     useEffect(() => {
       const initializeFirebase = async () => {
@@ -32,10 +31,6 @@ function UserHome() {
   }, []);
 
     const fetchUserData = async () => {
-        if (!user || !firebaseInitialized) {
-            console.log('error');
-          return;
-        }
     
         const db = getFirestore();
         const userDocRef = doc(db, 'users', user.uid);
@@ -51,16 +46,14 @@ function UserHome() {
           }
         } catch (error) {
           console.error('Error fetching user data:', error);
+        } finally {
+          setLoadingUser(false);
         }
       };
 
       useEffect(() => {
         fetchUserData();
       }, [user]);
-
-      if (!firebaseInitialized) {
-        return <div>Loading Firebase...</div>;
-      }
 
     const numberStyle = {
         fontSize: '1.5rem',    // Adjust the font size as needed
@@ -75,24 +68,33 @@ function UserHome() {
         <MantineProvider theme={{ colorScheme: isDarkMode ? 'dark' : 'light' }} withGlobalStyles withNormalizeCSS>
         <div>
             <UserNavBar />
-            <div style={numberStyle}>
-            {remainingFilters}
-            </div>
-            <UploadImage />
-            <Tabs defaultValue="model">
-                <Tabs.List>
-                    <Tabs.Tab value="model" icon={<IconRobot size="0.8rem" />}>Model</Tabs.Tab>
-                    <Tabs.Tab value="design" icon={<IconWriting size="0.8rem" />}>Design</Tabs.Tab>
-                </Tabs.List>
+            {loadingUser ? (
+                  <div style={{ textAlign: 'center', paddingTop: '20px' }}>
+                    <ClipLoader size={50} color="#123abc" loading={true} />
+                    <p>Loading...</p>
+                  </div>
+            ) : (
+              <div>
+                <div style={numberStyle}>
+                {remainingFilters}
+                </div>
+                <UploadImage />
+                <Tabs defaultValue="model">
+                    <Tabs.List>
+                        <Tabs.Tab value="model" icon={<IconRobot size="0.8rem" />}>Model</Tabs.Tab>
+                        <Tabs.Tab value="design" icon={<IconWriting size="0.8rem" />}>Design</Tabs.Tab>
+                    </Tabs.List>
 
-                <Tabs.Panel value="model" pt="xs">
-                    Model tab content
-                </Tabs.Panel>
+                    <Tabs.Panel value="model" pt="xs">
+                        Model tab content
+                    </Tabs.Panel>
 
-                <Tabs.Panel value="design" pt="xs">
-                    Design tab content
-                </Tabs.Panel>
-            </Tabs>
+                    <Tabs.Panel value="design" pt="xs">
+                        Design tab content
+                    </Tabs.Panel>
+                </Tabs>
+              </div>
+            )}
         </div>
         </MantineProvider>
 

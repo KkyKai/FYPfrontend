@@ -15,14 +15,11 @@ const firebaseConfig = {
   appId: "1:1060757173931:web:c5da005c1a152afd79e9ee"
 };
 
-function App() {
-  useEffect(() => {
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app); // Initialize Firebase Authentication
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 
-    // Rest of your React app code...
-  }, []);
+function App() {
+
   return (
     <UserProvider>
       <GloabalThemeProvider>

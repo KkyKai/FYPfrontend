@@ -1,5 +1,7 @@
-import { Card, Image, Text, Group, Badge, createStyles, Center, Button, rem } from '@mantine/core';
+import React, { useEffect, useState } from "react";
+import { Card, Image, Text, Group, Badge, createStyles, Box, Center, Button, rem } from '@mantine/core';
 import { IconGauge, IconUsers } from '@tabler/icons-react';
+import { getFirestore, doc, getDoc, updateDoc } from "firebase/firestore";
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -44,6 +46,50 @@ const mockdata = [
 ];
 
 export function SubscriptionInfoBadge() {
+  const [price, setPrice] = useState(null);
+  const [duration, setDuration] = useState(null);
+  const [subscribed, setSubscribed] = useState(false);
+
+  const user = JSON.parse(localStorage.getItem('user'));
+
+  const handleSubscribeClick = async () => {
+    const db = getFirestore();
+    const userDocRef = doc(db, 'users', user.uid);
+  
+    try {
+      // Save the editedUserData
+      await updateDoc(userDocRef, {
+        remainingFilters: 30,
+      });
+      setSubscribed(true);
+    } catch (error) {
+      console.error('Error updating user data:', error);
+    }
+  };
+
+  useEffect(() => {
+    const fetchDuration = async () => {
+      try {
+        const db = getFirestore();
+        const subPlanDocRef = doc(db, 'subPlan/monthlyBasic'); // Replace with the actual document ID
+
+        const docSnapshot = await getDoc(subPlanDocRef);
+
+        if (docSnapshot.exists()) {
+          const durationValue = docSnapshot.data().duration;
+          const priceValue = docSnapshot.data().price;
+          setDuration(durationValue);
+          setPrice(priceValue);
+        } else {
+          console.log('Document not found');
+        }
+      } catch (error) {
+        console.error('Error fetching document:', error);
+      }
+    };
+
+    fetchDuration();
+  }, []);
   const { classes } = useStyles();
   const features = mockdata.map((feature) => (
     <Center key={feature.label}>
@@ -54,6 +100,7 @@ export function SubscriptionInfoBadge() {
 
   return (
     <Card withBorder radius="md" className={classes.card}>
+      <Box maw={800} mx="auto">
       <Card.Section className={classes.imageSection}>
         <Image src="" alt="Place Animation Image Here" />
       </Card.Section>
@@ -62,7 +109,7 @@ export function SubscriptionInfoBadge() {
         <div>
           <Text fw={500}>AniFace Subscription</Text>
           <Text fz="xs" c="dimmed">
-            1 Month
+            {duration} days
           </Text>
         </div>
         <Badge variant="outline">99% off</Badge>
@@ -82,18 +129,20 @@ export function SubscriptionInfoBadge() {
         <Group spacing={30}>
           <div>
             <Text fz="xl" fw={700} sx={{ lineHeight: 1 }}>
-              USD$9.99
+              USD${price}
             </Text>
             <Text fz="sm" c="dimmed" fw={500} sx={{ lineHeight: 1 }} mt={3}>
               per month
             </Text>
           </div>
 
-          <Button radius="xl" style={{ flex: 1 }}>
+          <Button onClick={handleSubscribeClick} radius="xl" style={{ flex: 1 }}>
             Subscribe
           </Button>
+          {subscribed && <p>Successfully Subscribed</p>}
         </Group>
       </Card.Section>
+      </Box>
     </Card>
   );
 }

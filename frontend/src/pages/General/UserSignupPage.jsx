@@ -4,8 +4,11 @@ import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { getAuth } from 'firebase/auth';
 import { TextInput, Select } from '@mantine/core';
 import { getFirestore, doc, setDoc } from 'firebase/firestore';
+import { useUser } from './UserContext';
 
 function Signup() {
+  const { setUser } = useUser();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [birthdate, setBirthdate] = useState('');
@@ -69,7 +72,11 @@ function Signup() {
           remainingFilters: 3,
         };
         await setDoc(userDocRef, userData);
-        
+
+        localStorage.setItem('user', JSON.stringify(userCredential.user));
+        console.log("successfully set item");
+        setUser(userCredential.user);
+        console.log("successfully set user");
         setError(''); // Clear error message
         setSuccessMessage('Account created successfully'); // Set success message
         setTimeout(() => {

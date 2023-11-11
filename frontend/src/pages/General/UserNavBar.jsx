@@ -10,17 +10,10 @@ import {
     Tabs,
     Burger,
     rem,
-    Modal,
-    PasswordInput,
-    TextInput,
-    Button,
-    Box,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import {
     IconLogout,
-    IconHeart,
-    IconStar,
     IconSettings,
     IconChevronDown,
     IconHome2,
@@ -34,6 +27,8 @@ import {
 import { Link } from 'react-router-dom';
 import { useForm } from '@mantine/form';
 import AniFaceLogo from './AniFace-logos_black (1).png';
+import AniFaceDarkLogo from './AniFace-logos_white.png';
+import { useTheme } from '../../GloabalThemeProvider';
 
 const handleLogout = () => {
     localStorage.removeItem('user');
@@ -106,6 +101,9 @@ const useStyles = createStyles((theme) => ({
 
 function UserNavBar() {
 
+    const { isDarkMode } = useTheme();
+    const imageSource = isDarkMode ? AniFaceDarkLogo : AniFaceLogo;
+
     const user = {
         name: "",
         image: "",
@@ -141,7 +139,7 @@ function UserNavBar() {
             <Container className={classes.mainSection}>
                 <Group position="apart">
                     <Burger opened={tabOpened} onClick={toggleTab} className={classes.burger} size="sm" />
-                    <img src ={AniFaceLogo}  width = {200} height = {45}  object-fit = {'scale-down'} alt = "logo"/>
+                    <img src ={imageSource}  width = {200} height = {45}  object-fit = {'scale-down'} alt = "logo"/>
                     <Menu
                         width={260}
                         position="bottom-end"

@@ -142,29 +142,53 @@ function UserSettingPage() {
                     <TextInput
                     label="Email"
                     placeholder="your@email.com"
-                    value={userData ? userData.email : ''}
+                    value={isEditing ? editedUserData.email : userData.email}
                     disabled={!isEditing}
+                    onChange={(event) =>
+                      setEditedUserData({
+                        ...editedUserData,
+                        email: event.currentTarget.value,
+                      })
+                    }
                     />
 
                     <TextInput
                     placeholder="YYYY/MM/DD"
                     label="Birth Date"
-                    value={userData ? userData.birthdate : ''}
+                    value={isEditing ? editedUserData.birthdate : userData.birthdate}
                     disabled={!isEditing}
+                    onChange={(event) =>
+                      setEditedUserData({
+                        ...editedUserData,
+                        birthdate: event.currentTarget.value,
+                      })
+                    }
                     />
 
                     <TextInput
                     label="Country"
                     placeholder="Country"
-                    value={userData ? userData.country : ''}
+                    value={isEditing ? editedUserData.country : userData.country}
                     disabled={!isEditing}
+                    onChange={(event) =>
+                      setEditedUserData({
+                        ...editedUserData,
+                        country: event.currentTarget.value,
+                      })
+                    }
                     />
 
                     <TextInput
                     label="Profession"
                     placeholder="Job Title"
-                    value={userData ? userData.job : ''}
+                    value={isEditing ? editedUserData.job : userData.job}
                     disabled={!isEditing}
+                    onChange={(event) =>
+                      setEditedUserData({
+                        ...editedUserData,
+                        job: event.currentTarget.value,
+                      })
+                    }
                     />
 
                     <Group position="left" mt="md">

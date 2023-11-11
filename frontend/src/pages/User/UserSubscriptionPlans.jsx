@@ -1,7 +1,8 @@
 import UserNavBar from "../General/UserNavBar";
 import SubscriptionInfoBadge from "./SubscriptionInfoBadge";
 import { useTheme } from "../../GloabalThemeProvider";
-import { createStyles, Container, Title, Text, Button, rem, MantineProvider } from '@mantine/core';
+import { createStyles, Container, Title, Text, Button, rem, MantineProvider, Box } from '@mantine/core';
+import { getFirestore, doc, getDoc } from "firebase/firestore";
 
 const useStyles = createStyles((theme) => ({
   root: {
@@ -32,10 +33,10 @@ const useStyles = createStyles((theme) => ({
   content: {
     paddingTop: `calc(${theme.spacing.xl} * 2)`,
     paddingBottom: `calc(${theme.spacing.xl} * 2)`,
-    marginRight: `calc(${theme.spacing.xl} * 3)`,
+    // marginRight: `calc(${theme.spacing.xl} * 3)`,
 
     [theme.fn.smallerThan('md')]: {
-      marginRight: 0,
+      // marginRight: 0,
     },
   },
 
@@ -46,6 +47,7 @@ const useStyles = createStyles((theme) => ({
     lineHeight: 1.05,
     maxWidth: rem(500),
     fontSize: rem(48),
+    textAlign: 'center',
 
     [theme.fn.smallerThan('md')]: {
       maxWidth: '100%',
@@ -80,6 +82,7 @@ const useStyles = createStyles((theme) => ({
 }));
 
 export function UserSubscriptionPlans() {
+
   const { classes } = useStyles();
 
   const { isDarkMode } = useTheme();
@@ -108,20 +111,11 @@ export function UserSubscriptionPlans() {
                 Make your own photos come to life with our animation tools open to try - or subscribe for full unlimited access to all features! 
               </Text>
 
-              <Button
-                variant="gradient"
-                gradient={{ from: 'pink', to: 'yellow' }}
-                size="xl"
-                className={classes.control}
-                mt={40}
-              >
-                Get started
-              </Button>
             </div>
           </div>
         </Container>
           <div>
-              <SubscriptionInfoBadge/>
+            <SubscriptionInfoBadge/>
           </div>
       </div>
     </div>
