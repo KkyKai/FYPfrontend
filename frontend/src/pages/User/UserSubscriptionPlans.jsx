@@ -118,9 +118,6 @@ export function UserSubscriptionPlans() {
             <SubscriptionInfoBadge/>
           </div>
           <br></br>
-          <div>
-              <SubscriptionInfoBadge/>
-          </div>
       </div>
     </div>
     </ MantineProvider>

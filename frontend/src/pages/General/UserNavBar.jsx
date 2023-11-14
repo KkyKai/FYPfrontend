@@ -237,11 +237,6 @@ function UserNavBar() {
                             <Menu.Item color="red" icon={<IconTrash size="0.9rem" stroke={1.5} />}>
                                 Delete account
                             </Menu.Item>
-                            <Menu.Item
-                                icon={<IconStar size="0.9rem" color={theme.colors.yellow[6]} stroke={1.5} />}
-                            >
-                                <Link to="/UsertermsAndConditions">View Terms & Conditions</Link>
-                            </Menu.Item>
                         </Menu.Dropdown>
                     </Menu>
                 </Group>
