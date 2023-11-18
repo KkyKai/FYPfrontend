@@ -48,9 +48,33 @@ const mockdata = [
 export function SubscriptionInfoBadge() {
   const [price, setPrice] = useState(null);
   const [duration, setDuration] = useState(null);
-  const [subscribed, setSubscribed] = useState(false);
+  const [subscribed, setSubscribed] = useState('');
 
   const user = JSON.parse(localStorage.getItem('user'));
+
+  useEffect(() => {
+    fetchUserData();
+}, [subscribed, user]);
+
+
+  const fetchUserData = async () => {
+  
+      const db = getFirestore();
+      const userDocRef = doc(db, 'users', user.uid);
+  
+      try {
+        const docSnapshot = await getDoc(userDocRef);
+        if (docSnapshot.exists()) {
+          const userData = docSnapshot.data();
+          const subscribe = userData.subscriptionStatus;
+          setSubscribed(subscribe);
+        } else {
+          console.log('User data not found');
+        }
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    };
 
   const handleSubscribeClick = async () => {
     const db = getFirestore();
@@ -60,8 +84,25 @@ export function SubscriptionInfoBadge() {
       // Save the editedUserData
       await updateDoc(userDocRef, {
         remainingFilters: 30,
+        subscriptionStatus: true,
       });
       setSubscribed(true);
+    } catch (error) {
+      console.error('Error updating user data:', error);
+    }
+  };
+
+  const handleUnsubscribeClick = async () => {
+    const db = getFirestore();
+    const userDocRef = doc(db, 'users', user.uid);
+  
+    try {
+      // Save the editedUserData
+      await updateDoc(userDocRef, {
+        remainingFilters: 10,
+        subscriptionStatus: false,
+      });
+      setSubscribed(false);
     } catch (error) {
       console.error('Error updating user data:', error);
     }
@@ -101,10 +142,6 @@ export function SubscriptionInfoBadge() {
   return (
     <Card withBorder radius="md" className={classes.card}>
       <Box maw={800} mx="auto">
-      <Card.Section className={classes.imageSection}>
-        <Image src="" alt="Place Animation Image Here" />
-      </Card.Section>
-
       <Group position="apart" mt="md">
         <div>
           <Text fw={500}>AniFace Subscription</Text>
@@ -136,10 +173,14 @@ export function SubscriptionInfoBadge() {
             </Text>
           </div>
 
+          {subscribed ? ( 
+          <Button onClick={handleUnsubscribeClick} radius="xl" style={{ flex: 1 }}>
+            Unsubscribe
+          </Button>) :  
           <Button onClick={handleSubscribeClick} radius="xl" style={{ flex: 1 }}>
             Subscribe
-          </Button>
-          {subscribed && <p>Successfully Subscribed</p>}
+          </Button>}
+
         </Group>
       </Card.Section>
       </Box>

@@ -54,7 +54,7 @@ function UserFAQPage() {
               </li>
               <li style={textStyle}>
               <strong>Can I cancel my subscription?</strong>
-              <p>Yes, you can cancel your subscription at any time. If you decide that [Your Software Name] is not the right fit for you, you have a 7-day grace period to cancel your subscription with no charges.</p>
+              <p>Yes, you can cancel your subscription at any time. If you decide that AniFace is not the right fit for you, you have a 7-day grace period to cancel your subscription with no charges.</p>
               </li>
               <li style={textStyle}>
               <strong>What happens after the 7-day trial period if I don't cancel my subscription?</strong>

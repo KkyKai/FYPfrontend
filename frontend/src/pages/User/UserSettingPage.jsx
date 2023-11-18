@@ -206,14 +206,14 @@ function UserSettingPage() {
                         onChange={toggleDarkMode}/>
                     </Group>
 
-                    <Group>
+                    {/* <Group>
                         <p>Enable Notification</p>
 
                         <hr />
 
                         <Switch style={{ marginLeft: 'auto', marginRight: '0' }} // This pushes the switch all the way to the right
                         labelPosition="right"/>
-                    </Group>
+                    </Group> */}
 
                     <Group position="right" mt="md">
                     {isEditing ? (

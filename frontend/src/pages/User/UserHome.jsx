@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
+import { useLocation } from 'react-router-dom';
 import { ClipLoader } from "react-spinners";
 import { Tabs, MantineProvider, rem, Text } from '@mantine/core';
 import { useTheme } from "../../GloabalThemeProvider";
@@ -13,6 +14,20 @@ function UserHome() {
     const { isDarkMode } = useTheme();
     const [firebaseInitialized, setFirebaseInitialized] = useState(false);
     const [loadingUser, setLoadingUser] = useState(true);
+    const [selectedTabIndex, setSelectedTabIndex] = useState(1);
+
+    const location = useLocation();
+
+    useEffect(() => {
+      // Access the selectedTab from the state
+      const selectedTab = location?.state?.selectedTab;
+  
+      if (selectedTab) {
+        // Handle the selected tab logic here
+        console.log(`Selected tab for diff loc: ${selectedTab}`);
+        handleTabSelect(selectedTab);
+      }
+    }, [location]);
 
     useEffect(() => {
       const initializeFirebase = async () => {
@@ -29,6 +44,11 @@ function UserHome() {
 
       initializeFirebase();
   }, []);
+
+  useEffect(() => {
+      fetchUserData();
+  }, [remainingFilters, user]);
+
 
     const fetchUserData = async () => {
     
@@ -51,9 +71,9 @@ function UserHome() {
         }
       };
 
-      useEffect(() => {
-        fetchUserData();
-      }, [user]);
+      // useEffect(() => {
+      //   fetchUserData();
+      // }, [user]);
 
     const numberStyle = {
         fontSize: '1.5rem',    // Adjust the font size as needed
@@ -64,10 +84,31 @@ function UserHome() {
         marginBottom: rem(30),  // Adjust border radius as needed for rounded corners
       };
 
+    const handleTabSelect = (selectedTab) => {
+        // Map the selected tab to an integer
+        const tabMapping = {
+            "Tangled": 1,
+            "Turning Red": 2,
+            "How To Train Your Dragon": 3,
+            "Rapunzel": 4,
+        };
+
+        // Set the selectedTabIndex based on the mapping
+        setSelectedTabIndex((prevTabIndex) => {
+          const newTabIndex = tabMapping[selectedTab];
+          console.log('Selected tab index in homepage:', newTabIndex);
+          return newTabIndex;
+      });
+    };
+
+    const handleUpdateRemainingFilters = (newRemainingFilters) => {
+      setRemainingFilters(newRemainingFilters);
+  };
+
     return (
         <MantineProvider theme={{ colorScheme: isDarkMode ? 'dark' : 'light' }} withGlobalStyles withNormalizeCSS>
         <div>
-            <UserNavBar />
+            <UserNavBar onTabSelect={handleTabSelect}/>
             {loadingUser ? (
                   <div style={{ textAlign: 'center', paddingTop: '20px' }}>
                     <ClipLoader size={50} color="#123abc" loading={true} />
@@ -78,8 +119,8 @@ function UserHome() {
                 <div style={numberStyle}>
                 {remainingFilters}
                 </div>
-                <UploadImage />
-                <Tabs defaultValue="model">
+                <UploadImage selectedTabIndex={selectedTabIndex} remaining_filters={remainingFilters} onUpdateRemainingFilters={handleUpdateRemainingFilters} />
+                {/* <Tabs defaultValue="model">
                     <Tabs.List>
                         <Tabs.Tab value="model" icon={<IconRobot size="0.8rem" />}>Model</Tabs.Tab>
                         <Tabs.Tab value="design" icon={<IconWriting size="0.8rem" />}>Design</Tabs.Tab>
@@ -92,7 +133,7 @@ function UserHome() {
                     <Tabs.Panel value="design" pt="xs">
                         Design tab content
                     </Tabs.Panel>
-                </Tabs>
+                </Tabs> */}
               </div>
             )}
         </div>

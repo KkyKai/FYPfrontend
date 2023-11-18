@@ -70,6 +70,7 @@ function Signup() {
           country,
           job,
           remainingFilters: 3,
+          subscriptionStatus: false,
         };
         await setDoc(userDocRef, userData);
 

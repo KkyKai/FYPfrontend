@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import {
     createStyles,
     Container,
-    Avatar,
     UnstyledButton,
     Group,
     Text,
@@ -15,16 +14,16 @@ import { useDisclosure } from '@mantine/hooks';
 import {
     IconLogout,
     IconSettings,
-    IconChevronDown,
     IconHome2,
     IconHelpOctagon,
     IconUserPlus,
     IconMessageChatbot,
     IconClipboardList,
+    IconMenu2,
     IconPlayerPause,
     IconTrash
 } from '@tabler/icons-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useForm } from '@mantine/form';
 import AniFaceLogo from './AniFace-logos_black (1).png';
 import AniFaceDarkLogo from './AniFace-logos_white.png';
@@ -99,26 +98,43 @@ const useStyles = createStyles((theme) => ({
     },
 }));
 
-function UserNavBar() {
+function UserNavBar({onTabSelect}) {
 
     const { isDarkMode } = useTheme();
     const imageSource = isDarkMode ? AniFaceDarkLogo : AniFaceLogo;
+    const navigate = useNavigate();
+    const location = useLocation();
 
     const user = {
-        name: "",
+        name: "More Options",
         image: "",
     };
 
     const tab = {
-        tabs: ["Cartoonise", "Animated Smiling Cartoon", "Change Background", "Smiles"],
+        tabs: ["Tangled", "Turning Red", "How To Train Your Dragon", "Rapunzel"],
     };
 
     const { classes, theme, cx } = useStyles();
     const [tabOpened, { toggle: toggleTab }] = useDisclosure(false);
     const [userMenuOpened, setUserMenuOpened] = useState(false);
 
+    const handleTabSelect = (tab) => {
+        if (location.pathname === '/UserHome') {
+            // If on the homepage, perform the normal logic
+            navigate('/UserHome');
+            onTabSelect(tab);
+          } else {
+            // If not on the homepage, navigate to the homepage and pass the selected tab as state
+            navigate('/UserHome', { state: { selectedTab: tab } });
+          }
+    };
+
+    const handleChangeTab = (value) => {
+        handleTabSelect(value);
+    };
+
     const items = tab.tabs.map((tabs) => (
-        <Tabs.Tab value={tabs} key={tabs}>
+        <Tabs.Tab value={tabs} key={tabs} onClick={() => handleTabSelect(tabs)}>
             {tabs}
         </Tabs.Tab>
     ));
@@ -153,11 +169,10 @@ function UserNavBar() {
                                 className={cx(classes.user, { [classes.userActive]: userMenuOpened })}
                             >
                                 <Group spacing={7}>
-                                    <Avatar src={user.image} alt={user.name} radius="xl" size={20} />
                                     <Text weight={500} size="sm" sx={{ lineHeight: 1 }} mr={3}>
                                         {user.name}
                                     </Text>
-                                    <IconChevronDown size={rem(12)} stroke={1.5} />
+                                    <IconMenu2 size={rem(12)} stroke={1.5} />
                                 </Group>
                             </UnstyledButton>
                         </Menu.Target>
@@ -192,7 +207,7 @@ function UserNavBar() {
 
                             <Menu.Divider />
 
-                            <Menu.Label>Account</Menu.Label>
+                            {/* <Menu.Label>Account</Menu.Label>
                             <Menu.Label>Admin</Menu.Label>
 
                             <Menu.Item icon={<IconHome2 size="0.9rem" color={theme.colors.teal[6]} stroke={1.5} />}>
@@ -215,7 +230,7 @@ function UserNavBar() {
                                 <Link to="/OwnerHome" style={{ textDecoration: 'none'}}>Owner Homepage</Link>
                             </Menu.Item>
 
-                            <Menu.Divider />
+                            <Menu.Divider /> */}
 
                             <Menu.Label>Settings</Menu.Label>
                             <Menu.Item icon={<IconSettings size="0.9rem" color={theme.colors.blue[6]} stroke={1.5} />}>
@@ -229,14 +244,14 @@ function UserNavBar() {
                                 Logout
                             </Menu.Item>
 
-                            <Menu.Label>Danger zone</Menu.Label>
+                            {/* <Menu.Label>Danger zone</Menu.Label>
 
                             <Menu.Item icon={<IconPlayerPause size="0.9rem" stroke={1.5} />}>
                                 Pause subscription
                             </Menu.Item>
                             <Menu.Item color="red" icon={<IconTrash size="0.9rem" stroke={1.5} />}>
                                 Delete account
-                            </Menu.Item>
+                            </Menu.Item> */}
                         </Menu.Dropdown>
                     </Menu>
                 </Group>
@@ -250,6 +265,7 @@ function UserNavBar() {
                         tabsList: classes.tabsList,
                         tab: classes.tab,
                     }}
+                    onChange={handleChangeTab}
                 >
                     <Tabs.List>{items}</Tabs.List>
                 </Tabs>
