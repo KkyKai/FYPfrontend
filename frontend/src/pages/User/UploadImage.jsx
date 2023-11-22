@@ -88,7 +88,7 @@ function UploadImage({selectedTabIndex, remaining_filters, onUpdateRemainingFilt
         
         try {
             setIsLoading(true);
-            const response = await fetch('http://localhost:5000/process_image', {
+            const response = await fetch('https://aniface-6o4g6hvz3a-as.a.run.app/process_image', {
             method: 'POST',
             body: formData,
             });
@@ -100,6 +100,7 @@ function UploadImage({selectedTabIndex, remaining_filters, onUpdateRemainingFilt
         
             if (response.ok) {
                 setIsLoading(false);
+                console.log("it is loading");
             // const resultBlob = await response.blob();
             // const resultImage = URL.createObjectURL(resultBlob);
             // // Display or use the resultImage as needed
